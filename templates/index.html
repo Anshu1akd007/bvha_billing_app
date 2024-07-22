@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1.0">
+    <title>Billing App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- <header class="text-center mb-4">
+        <img src="url_for(filename='static\img\BVHA Letterhead1.jpg')" alt="Header Image" class="img-fluid">
+    </header> -->
+    <div style="text-align:center;">
+        <h1>Bihar Voluntary Health Association</h1>
+        <h4>West of Ganga Apartment, L.C.T Ghat, Mainpura, Patna- 800 001, Bihar(India)</h4>
+        <h4>Phone: +91-612-2266605,2266884</h4>
+        <h4>Email: bvhapatna@gmail.com      Website :https://www.biharvha.org</h4>
+    </div>
+    <div class="container">
+        <div class="form-section">
+            <h1>Add New Bill</h1>
+            <form action="/add" method="post">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-6 mb-2">
+                            <label for="from_date">Event From:</label>
+                            <input type="date" class="form-control" name="from_date" required>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label for="to_date">To:</label>
+                            <input type="date" class="form-control" name="to_date" required>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Items</h3>
+                <div id="items">
+                    <div class="item form-group">
+                        <label for="description">Description:</label>
+                        <select name="description" class="form-control mb-2" required>
+                            <option value="Big Hall(Capacity of 100 person)-non AC">Big Hall(Capacity of 100 person)-non AC</option>
+                            <option value="Big Hall(Capacity of 100 person)-AC">Big Hall(Capacity of 100 person)-AC</option>
+                            <option value="Small Hall(Capacity of 30 person)-Non AC">Small Hall(Capacity of 30 person)-Non AC</option>
+                            <option value="Small Hall(Capacity of 30 person)-AC">Small Hall(Capacity of 30 person)-AC</option>
+                            <option value="LCD">LCD</option>
+                            <option value="P.A System-2 Wireless Microphone">P.A System-2 Wireless Microphone</option>
+                            <option value="Bed Tea">Bed Tea</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch-Non Veg">Lunch-Non Veg</option>
+                            <option value="Lunch-Veg">Lunch-Veg</option>
+                            <option value="Tea with snacks-2 times">Tea with snacks-2 times</option>
+                            <option value="Dinner-Veg">Dinner-Veg</option>
+                            <option value="Dinner-Non Veg">Dinner-Non Veg</option>
+                            <option value="Accommodation(single bed)">Accommodation(single bed)</option>
+                            <option value="AC Room">AC Room</option>
+                            <option value="Non AC Room">Non AC Room</option>
+                            <option value="BVHA Resource Team Charges in Patna">BVHA Resource Team Charges in Patna</option>
+                            <option value="BVHA Resource Team Charges outside Patna">BVHA Resource Team Charges outside Patna</option>
+                        </select>
+                
+                        <div class="form-row">
+                            <div class="col-md-4 mb-2">
+                                <label for="unit_price">Unit Price:</label>
+                                <input type="number" name="unit_price" class="form-control" step="0.01" required>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" class="form-control" required>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <label for="days">Days:</label>
+                                <input type="number" name="days" class="form-control" required>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeItem(this)">Delete Row</button>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="btn btn-primary btn-add-item" onclick="addItem()">Add Item</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        <h1 class="mt-5">Bills</h1>
+        <ul class="list-group mb-5">
+            {% for bill in bills %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('bill', bill_id=bill.id) }}">{{ bill.name }} - {{ bill.date.strftime('%d %m %Y') }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script>
+        function addItem() {
+            // const itemRow = document.createElement('div');
+            // itemRow.classList.add('form-row', 'mb-2');
+            const itemsDiv = document.getElementById('items');
+            const newItemDiv = document.createElement('div');
+            newItemDiv.classList.add('item');
+            newItemDiv.innerHTML = `
+                <label for="description">Description:</label>
+                <select name="description" class="form-control mb-2" required>
+                    <option value="Big Hall(Capacity of 100 person)-non AC">Big Hall(Capacity of 100 person)-non AC</option>
+                    <option value="Big Hall(Capacity of 100 person)-AC">Big Hall(Capacity of 100 person)-AC</option>
+                    <option value="Small Hall(Capacity of 30 person)-Non AC">Small Hall(Capacity of 30 person)-Non AC</option>
+                    <option value="Small Hall(Capacity of 30 person)-AC">Small Hall(Capacity of 30 person)-AC</option>
+                    <option value="LCD">LCD</option>
+                    <option value="P.A System-2 Wireless Microphone">P.A System-2 Wireless Microphone</option>
+                    <option value="Bed Tea">Bed Tea</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch-Non Veg">Lunch-Non Veg</option>
+                    <option value="Lunch-Veg">Lunch-Veg</option>
+                    <option value="Tea with snacks-2 times">Tea with snacks-2 times</option>
+                    <option value="Dinner-Veg">Dinner-Veg</option>
+                    <option value="Dinner-Non Veg">Dinner-Non Veg</option>
+                    <option value="Accommodation(single bed)">Accommodation(single bed)</option>
+                    <option value="AC Room">AC Room</option>
+                    <option value="Non AC Room">Non AC Room</option>
+                    <option value="BVHA Resource Team Charges in Patna">BVHA Resource Team Charges in Patna</option>
+                    <option value="BVHA Resource Team Charges outside Patna">BVHA Resource Team Charges outside Patna</option>
+                </select>
+                
+                <div class="form-row">
+                    <div class="col-md-4 mb-2">
+                        <label for="unit_price">Unit Price:</label>
+                        <input type="number" name="unit_price" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" name="quantity" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="days">Days:</label>
+                        <input type="number" name="days" class="form-control" required>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeItem(this)">Delete Row</button>
+            `;
+            // document.getElementById('items').appendChild(itemRow);
+            itemsDiv.appendChild(newItemDiv);
+        }
+
+        function removeItem(button) {
+            const itemDiv = button.parentElement;
+            itemDiv.remove();
+        }
+    </script>
+</body>
+</html>

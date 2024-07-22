@@ -1,0 +1,42 @@
+body {
+    padding-top: 20px;
+}
+.header-image {
+    max-width: 100%;
+    height: auto;
+    border-bottom: 2px solid #ddd;
+}
+.form-section {
+    background: #000000;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.form-section h2 {
+    margin-bottom: 15px;
+}
+.btn-add-item {
+    margin-right: 50px; /* Adjust the margin as needed */
+}
+.list-group-item {
+    font-size: 16px;
+}
+.btn-danger {
+    margin-top: 5px;
+}
+.item input {
+    width: 100%;
+}
+.form-group {
+    margin-bottom: 10px;
+}
+.input-group {
+    max-width: 150px;
+}
+.button-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 100px;
+    margin-top: 10px;
+}
